@@ -19,7 +19,7 @@ namespace BankHeist
                 if (value > 0)
                 {
                     _skillLevel = value;
-                }
+                }  
             }
         }
         public double CourageFactor {
@@ -32,6 +32,10 @@ namespace BankHeist
                 if (value >= 0.0 && value <= 2.0)
                 {
                     _courageFactor = value;
+                }
+                else
+                {
+                    _courageFactor = 3.0;
                 }
             }
         }
