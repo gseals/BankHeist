@@ -11,9 +11,9 @@ namespace BankHeist
 
             List<TeamMember> iceSquad = new List<TeamMember>();
 
-            Console.WriteLine("Plan Your Heist!");
-            Console.ReadLine();
+            Console.WriteLine("Plan Your Heist! Please enter a bank difficulty level.");
 
+            var bankValue = Convert.ToInt32(Console.ReadLine());
 
             string addAnother;
             do
@@ -24,17 +24,17 @@ namespace BankHeist
                 Console.WriteLine("Please enter your team members skill level: (Any number greater than zero)");
                 var teamMemberSkillLevel = Convert.ToInt32(Console.ReadLine());
 
-                while (teamMemberSkillLevel == 0)
+                while (teamMemberSkillLevel <= 0)
                 {
                     Console.WriteLine("Sorry, you entered a number equal or less than zero, try again.");
-                    teamMemberSkillLevel += Convert.ToInt32(Console.ReadLine());
+                    teamMemberSkillLevel = Convert.ToInt32(Console.ReadLine());
                 }
 
                 Console.WriteLine(
                     "Please enter your team members courage factor: (a decimal value between 0.0 and 2.0)");
                 var teamMemberCourageFactor = Convert.ToDecimal(Console.ReadLine());
 
-                while (teamMemberCourageFactor == 3.0m)
+                while (teamMemberCourageFactor < 0.0m || teamMemberCourageFactor > 2.0m)
                 {
                     Console.WriteLine("Sorry, you entered a decimal value outside of the acceptable range, try again.");
                     teamMemberCourageFactor = Convert.ToDecimal(Console.ReadLine());
@@ -56,24 +56,33 @@ namespace BankHeist
 
             Console.Clear();
 
-            Random rnd = new Random();
-            var bankLuck = rnd.Next(-10, 10);
-            var bankValue = bankLuck + 100;
+            Console.WriteLine("How many times would you like to run this scenario?");
+            var scenarioLimit = Convert.ToInt32(Console.ReadLine());
 
-            var total = iceSquad.Sum(member => member.SkillLevel);
+            var successfulHeists = 0;
 
-            Console.WriteLine($"Your team's combined skill level is {total}. The bank's difficulty level is {bankValue}.");
+            for (var i = 0; i < scenarioLimit; i++) {
+                Random rnd = new Random();
+                var bankLuck = rnd.Next(-10, 10);
+                var finalBankValue = bankLuck + bankValue;
 
-            if (total >= bankValue)
-            {
-                Console.WriteLine("You've successfully infiltrated the bank.");
-                Console.ReadLine();
+                var total = iceSquad.Sum(member => member.SkillLevel);
+
+                Console.WriteLine($"Your team's combined skill level is {total}. The bank's difficulty level is {finalBankValue}.");
+
+                if (total >= finalBankValue)
+                {
+                    Console.WriteLine("You've successfully infiltrated the bank.");
+                    successfulHeists += 1;
+                }
+                else
+                {
+                    Console.WriteLine("Your team's skill level was not high enough this time. Try again.");
+                }
             }
-            else
-            {
-                Console.WriteLine("Your team's skill level was not high enough this time. Try again.");
-                Console.ReadLine();
-            }
+
+            Console.WriteLine($"You successfully completed {successfulHeists} heists and failed {scenarioLimit - successfulHeists}.");
+            Console.ReadLine();
         }
     }
 }
