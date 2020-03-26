@@ -22,12 +22,12 @@ namespace BankHeist
             }
 
             Console.WriteLine("Please enter your team members courage factor: (a decimal value between 0.0 and 2.0)");
-            teamMember.CourageFactor += Convert.ToDouble(Console.ReadLine());
+            teamMember.CourageFactor += Convert.ToDecimal(Console.ReadLine());
 
-            while (teamMember.CourageFactor == 3.0)
+            while (teamMember.CourageFactor == 3.0m)
             {
                 Console.WriteLine("Sorry, you entered a decimal value outside of the acceptable range, try again.");
-                teamMember.CourageFactor = Convert.ToDouble(Console.ReadLine());
+                teamMember.CourageFactor = Convert.ToDecimal(Console.ReadLine());
             }
 
             Console.WriteLine($"Your team member, {teamMember.Name}, has a skill level of {teamMember.SkillLevel} and a courage factor of {teamMember.CourageFactor}");

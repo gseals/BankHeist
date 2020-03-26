@@ -7,7 +7,7 @@ namespace BankHeist
     class TeamMember
     {
         private int _skillLevel;
-        private double _courageFactor;
+        private decimal _courageFactor;
         public string Name { get; set; }
         public int SkillLevel {
             get
@@ -22,20 +22,20 @@ namespace BankHeist
                 }  
             }
         }
-        public double CourageFactor {
+        public decimal CourageFactor {
             get
             {
                 return _courageFactor;
             }
             set
             {
-                if (value >= 0.0 && value <= 2.0)
+                if (value >= 0.0m && value <= 2.0m)
                 {
                     _courageFactor = value;
                 }
                 else
                 {
-                    _courageFactor = 3.0;
+                    _courageFactor = 3.0m;
                 }
             }
         }
