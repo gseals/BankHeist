@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BankHeist
 {
@@ -6,32 +8,72 @@ namespace BankHeist
     {
         static void Main(string[] args)
         {
+
+            List<TeamMember> iceSquad = new List<TeamMember>();
+
             Console.WriteLine("Plan Your Heist!");
             Console.ReadLine();
 
-            Console.WriteLine("Please enter a name for your first team member.");
-            var teamMember = new TeamMember(Console.ReadLine());
 
-            Console.WriteLine("Please enter your team members skill level: (Any number greater than zero)");
-            teamMember.SkillLevel = Convert.ToInt32(Console.ReadLine());
-
-            while (teamMember.SkillLevel == 0)
+            string addAnother;
+            do
             {
-                Console.WriteLine("Sorry, you entered a number equal or less than zero, try again.");
-                teamMember.SkillLevel += Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Please enter a name for your team member.");
+                var teamMemberName = Console.ReadLine();
+
+                Console.WriteLine("Please enter your team members skill level: (Any number greater than zero)");
+                var teamMemberSkillLevel = Convert.ToInt32(Console.ReadLine());
+
+                while (teamMemberSkillLevel == 0)
+                {
+                    Console.WriteLine("Sorry, you entered a number equal or less than zero, try again.");
+                    teamMemberSkillLevel += Convert.ToInt32(Console.ReadLine());
+                }
+
+                Console.WriteLine(
+                    "Please enter your team members courage factor: (a decimal value between 0.0 and 2.0)");
+                var teamMemberCourageFactor = Convert.ToDecimal(Console.ReadLine());
+
+                while (teamMemberCourageFactor == 3.0m)
+                {
+                    Console.WriteLine("Sorry, you entered a decimal value outside of the acceptable range, try again.");
+                    teamMemberCourageFactor = Convert.ToDecimal(Console.ReadLine());
+                }
+
+                iceSquad.Add(new TeamMember(teamMemberName, teamMemberSkillLevel, teamMemberCourageFactor));
+                Console.WriteLine("Would you like to add another team member? (y/n)");
+                addAnother = Console.ReadLine();
+            } while (addAnother == "y");
+
+            Console.Clear();
+            Console.WriteLine($"You have {iceSquad.Count} team members.");
+
+            foreach (var member in iceSquad)
+            {
+                Console.WriteLine($"Your team member, {member.Name}, has a skill level of {member.SkillLevel} and a courage factor of {member.CourageFactor}");
+                Console.ReadLine();
             }
 
-            Console.WriteLine("Please enter your team members courage factor: (a decimal value between 0.0 and 2.0)");
-            teamMember.CourageFactor += Convert.ToDecimal(Console.ReadLine());
+            Console.Clear();
 
-            while (teamMember.CourageFactor == 3.0m)
+            Random rnd = new Random();
+            var bankLuck = rnd.Next(-10, 10);
+            var bankValue = bankLuck + 100;
+
+            var total = iceSquad.Sum(member => member.SkillLevel);
+
+            Console.WriteLine($"Your team's combined skill level is {total}. The bank's difficulty level is {bankValue}.");
+
+            if (total >= bankValue)
             {
-                Console.WriteLine("Sorry, you entered a decimal value outside of the acceptable range, try again.");
-                teamMember.CourageFactor = Convert.ToDecimal(Console.ReadLine());
+                Console.WriteLine("You've successfully infiltrated the bank.");
+                Console.ReadLine();
             }
-
-            Console.WriteLine($"Your team member, {teamMember.Name}, has a skill level of {teamMember.SkillLevel} and a courage factor of {teamMember.CourageFactor}");
-            Console.ReadLine();
+            else
+            {
+                Console.WriteLine("Your team's skill level was not high enough this time. Try again.");
+                Console.ReadLine();
+            }
         }
     }
 }

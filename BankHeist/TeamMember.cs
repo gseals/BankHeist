@@ -40,9 +40,11 @@ namespace BankHeist
             }
         }
 
-        public TeamMember(string name)
+        public TeamMember(string name, int skillLevel, decimal courageFactor)
         {
             Name = name;
+            SkillLevel = skillLevel;
+            CourageFactor = courageFactor;
         }
     }
 }
